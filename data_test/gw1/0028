@@ -1,0 +1,450 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+<head>
+  <title>GParted -- Download</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="author" content="Curtis Gedak">
+  <meta name="keywords" content="partition editor, partition manager, partition magic, hard disk drive, flash drive, USB stick">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="images/gparted-16.png" type="image/png">
+  <link rel="stylesheet" href="css/default.css" type="text/css">
+  <link rel="canonical" href="https://gparted.org/download.php">
+<link rel="stylesheet" type="text/css" href="cookieconsent/cookieconsent.min.css" />
+<script src="cookieconsent/cookieconsent.min.js"></script>
+<script>
+window.addEventListener("load", function(){
+window.cookieconsent.initialise({
+  "palette": {
+    "popup": {
+      "background": "#efefef",
+      "text": "#404040"
+    },
+    "button": {
+      "background": "#8ec760",
+      "text": "#ffffff"
+    }
+  },
+  "content": {
+    "message": "This site uses cookies to make your browsing experience better.  By using our site you agree to our use of cookies.",
+    "dismiss": "Got it!",
+    "link": "Learn more",
+    "href": "privacy-policy.php"
+  }
+})});
+</script>
+<link rel="stylesheet" type="text/css" href="cookieconsent/cookieconsent.min.css" />
+<script src="cookieconsent/cookieconsent.min.js"></script>
+<script>
+window.addEventListener("load", function(){
+window.cookieconsent.initialise({
+  "palette": {
+    "popup": {
+      "background": "#efefef",
+      "text": "#404040"
+    },
+    "button": {
+      "background": "#8ec760",
+      "text": "#ffffff"
+    }
+  },
+  "content": {
+    "message": "This site uses cookies to make your browsing experience better.  By using our site you agree to our use of cookies.",
+    "dismiss": "Got it!",
+    "link": "Learn more",
+    "href": "privacy-policy.php"
+  }
+})});
+</script>
+</head>
+<body>
+<div class="body">
+
+<script type="text/javascript">
+  // Stop iFrame loading on older browsers
+  if ( top != self ) {
+    top.location.replace(document.location);
+    alert("iFrame not allowed; click OK to load this page without iFrame.");
+  }
+</script>
+<div class="hdr">
+	<a href="index.php"><img class="logo" src="images/gparted-64x42.png" alt="home" title="back to home page"></a>
+	<div class="hdrtitle">
+	<b>GNOME Partition Editor</b>
+	</div>
+</div>
+<div class="hovermenu">
+  	<ul>
+	<li><a href="index.php">Home</a></li>
+	<li><a href="download.php">Download</a></li>
+	<li><a href="livecd.php">Live CD/USB</a></li>
+	<li><a href="help.php">Help</a></li>
+	<li><a href="news.php">News</a></li>
+	<li><a href="development.php">Develop</a></li>
+	<li><a href="donations.php">Donate</a></li>
+	</ul>
+</div>
+<div class="abovead"><script type="text/javascript"><!--
+google_ad_client = "ca-pub-6388742802791691";
+width = document.documentElement.clientWidth;
+/* Site pages, 320x50 ads, Above page content */
+google_ad_slot = "6908663966";
+google_ad_width = 320;
+google_ad_height = 50;
+if (width > 500) {
+  /* Site pages, 468x60 Ads, Above page content */
+  google_ad_slot = "1021583018";
+  google_ad_width = 468;
+  google_ad_height = 60;
+}
+if (width > 750) {
+  /* Site pages, 728x90 ads, Above page content */
+  google_ad_slot = "0776862578";
+  google_ad_width = 728;
+  google_ad_height = 90;
+}
+if (width > 1000) {
+  /* Site pages, 970x90 ads, Above page content */
+  google_ad_slot = "4706792360";
+  google_ad_width = 970;
+  google_ad_height = 90;
+}
+//-->
+</script>
+<script type="text/javascript"
+src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div><div class="content">
+<h1>Downloads</h1>
+
+<div class="right"><script type="text/javascript"><!--
+google_ad_client = "pub-6388742802791691";
+width = document.documentElement.clientWidth;
+/* Download page, 160x600 ads, Right hand side near top */
+google_ad_slot = "4759062104";
+google_ad_width = 160;
+google_ad_height = 600;
+if (width > 1000) {
+  /* Download page, 300x600 Ads, Right hand side near top */
+  google_ad_slot = "9053253568";
+  google_ad_width = 300;
+  google_ad_height = 600;
+}
+//-->
+</script>
+<script type="text/javascript"
+src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<p>
+GParted is a free partition manager that enables you to resize, copy,
+and move partitions without data loss.<br>
+<br>
+The best way to access all of the <a href="features.php">features</a>
+of the GParted application is by using the GParted Live bootable
+image.  GParted Live enables you to use GParted on GNU/Linux as well
+as other operating systems, such as Windows or Mac OS X.
+</p>
+
+<table border=0><tr><td>
+<div class="caution">
+<p class="hangcaution">
+<b>CAUTION</b>: &nbsp; 
+Editing partitions has the potential to cause <b><u>LOSS of DATA</u></b>.<br>
+You are advised to <b><u>BACKUP your DATA</u></b> before using gparted.<br>
+</p>
+</div>
+</td></tr></table>
+
+<h2>Download Links</h2>
+
+<p>
+<a href="donations.php"><img src="images/btn_donate_LG.gif" border="0" alt="Donate to GParted" style="float: left; padding-right: 20px;"></a>
+If you use GParted and it helps you with your task, then please consider making
+a donation to help us make GParted better.<br>
+</p>
+
+<table border=0><tr><td>
+<div class="note">
+<p class="hangnote">
+<b>NOTE</b>: &nbsp; GParted Live is available in three different
+architectures
+</p>
+<table border=0 style="font-size: smaller; valign: top;">
+  <tr style="valign: top;">
+    <td valign="top">
+    <b>Architecture</b>
+    </td>
+    <td valign="top">
+    <b>Description</b>
+    </td>
+  </tr>
+  <tr style="valign: top;">
+    <td valign="top" align="right"><b>i686 &nbsp; </b></td>
+    <td valign="top">
+      32-bit version runs on x86 and x86-64 based computers, limited
+      to physical address space of 4 gigabytes, and uses one processor
+      only.<br>
+      &nbsp; &nbsp; <b><i>If in doubt, try this one first.</i></b>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" align="right"><b>i686-PAE &nbsp; </b></td>
+    <td valign="top">
+      32-bit version runs on x86 (i686 and higher) and x86-64 based
+      computers, with <b>P</b>hysical <b>A</b>ddress <b>E</b>xtension
+      to access more than 4 gigabytes of memory, and supports use of
+      multiple processor cores.
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" align="right"><b>amd64 &nbsp; </b></td>
+    <td valign="top">
+      64-bit version runs on x86-64 based computers, with ability to
+      access more than 4 gigabytes of memory, and supports use of
+      multiple processor cores.<br>
+      &nbsp; &nbsp; <b><i>For newer (>2010) computers with UEFI
+      instead of legacy BIOS try this one.</i></b>
+
+    </td>
+  </tr>
+</table>
+</div>
+</td></tr></table>
+
+<br>
+
+<table border="1px" cellpadding="5px">
+  <tr>
+    <th colspan="4">
+      GParted Live CD/USB/HD/PXE Bootable Image
+    </th>
+  </tr>
+
+  <tr>
+    <th colspan="4">
+      Stable Releases
+    </th>
+  </tr>
+
+  <tr>
+    <td>
+      <a href="https://downloads.sourceforge.net/gparted/gparted-live-0.33.0-2-i686.iso">Download gparted-live-0.33.0-2-i686.iso</a><br>
+      <br>
+      <a href="https://downloads.sourceforge.net/gparted/gparted-live-0.33.0-2-amd64.iso">Download gparted-live-0.33.0-2-amd64.iso</a><br>
+      <br>
+      <a href="https://sourceforge.net/projects/gparted/files/gparted-live-stable/">Stable directory (.iso/.zip)<br>
+        <small>(for i686, i686-pae and amd64 architectures)</small></a>
+    </td>
+    <td valign="top">
+      <a href="gparted-live/stable/RELEASE-NOTES-GParted-live.txt" target=_blank>Release notes</a>
+    </td>
+    <td valign="top">
+      <a href="gparted-live/stable/ChangeLog-GParted-live.txt" target=_blank>Changelog</a>
+    </td>
+    <td valign="top">
+      <a href="gparted-live/stable/CHECKSUMS.TXT" target=_blank>Checksums</a><br>
+      <a href="gparted-live/stable/CHECKSUMS.TXT.gpg" target=_blank>Checksums.gpg</a><br>(Signed by <a href="https://pgp.mit.edu/pks/lookup?op=vindex&search=0x8E94C9CD163E3FB0" target=_blank>GParted live maintainer Steven Shiau, updated on Sep/18/2017)</a>
+    </td>
+  </tr>
+
+  <tr>
+    <th colspan="4">
+      Testing Releases
+    </th>
+  </tr>
+
+  <tr>
+    <td valign="top">
+      <a href="https://sourceforge.net/projects/gparted/files/gparted-live-testing/">Testing directory (.iso/.zip)<br>
+        <small>(for i686, i686-pae and amd64 architectures)</small></a>
+    </td>
+    <td valign="top" colspan="3">
+      Release notes and checksums in same directory.
+    </td>
+  </tr>
+</table>
+
+<br>
+
+<table border="1px" cellpadding="5px">
+  <tr>
+    <th colspan="2">
+      GParted Application Source Code
+    </th>
+  </tr>
+  <tr>
+    <td>
+      <a href="https://sourceforge.net/projects/gparted/files/gparted/">Source code directory (.tar.gz)</a>
+    </td>
+    <td>
+      Release notes and checksums in same directory.
+    </td>
+  </tr>
+</table>
+
+<br>
+
+<table border="1px" cellpadding="5px">
+  <tr>
+    <th>
+      Linux Distribution
+      <a href="#distribution-note">*</a>
+    </th>
+    <th>
+      Package
+    </th>
+    <th>
+      Command Prompt Install
+    </th>
+  </tr>
+
+  <tr>
+    <th>
+      Debian
+    </th>
+    <td>
+      <a href="https://packages.debian.org/search?keywords=gparted">gparted</a>
+    </td>
+    <td>
+      <pre>sudo apt-get install gparted</pre>
+    </td>
+  </tr>
+
+  <tr>
+    <th>
+      Fedora
+    </th>
+    <td>
+      <a href="https://koji.fedoraproject.org/koji/packageinfo?packageID=1950">gparted</a>
+    </td>
+    <td>
+      <pre>su -c "yum install gparted"</pre>
+    </td>
+  </tr>
+
+  <tr>
+    <th>
+      Mageia
+    </th>
+    <td>
+      <a href="https://madb.mageia.org/package/show/name/gparted">gparted</a>
+    </td>
+    <td>
+      <pre>sudo urpmi gparted</pre>
+    </td>
+  </tr>
+
+  <tr>
+    <th>
+      OpenSUSE
+    </th>
+    <td>
+      <a href="https://software.opensuse.org/package/gparted">gparted</a>
+    </td>
+    <td>
+      <pre>sudo zypper install gparted</pre>
+    </td>
+  </tr>
+
+  <tr>
+    <th>
+      Ubuntu
+    </th>
+    <td>
+      <a href="https://packages.ubuntu.com/search?keywords=gparted">gparted</a>
+    </td>
+    <td>
+      <pre>sudo apt-get install gparted</pre>
+    </td>
+  </tr>
+</table>
+
+<a name="distribution-note"></a>
+<p>
+&nbsp; &nbsp; * NOTE: Distribution packages might not contain the most
+recent versions of GParted.
+</p>
+
+<table border=0><tr><td>
+<div class="tip">
+<p class="hangtip">
+<b>TIP</b>: &nbsp; Problems booting GParted Live image?
+See <a href="display-doc.php?name=gparted-live-manual&lang=C#gparted-live-tips-on-booting-gparted-live">Tips on Booting GParted Live</a>.<br>
+</p>
+</div>
+</td></tr></table>
+
+<h2>Order GParted Live on CD, USB flash drive, or SD Card</h2>
+<p>
+GParted Live can be ordered on a CDROM, USB flash drive, or SD card
+and delivered to you by postal mail.<br>
+Before ordering please check that it is the version you want.<br>
+<br>
+<a href="https://www.osdisc.com/products/gparted?affiliate=gedakc">OSDisc.com
+- GParted Live CD</a><br>
+</p>
+<br>
+
+
+</div>
+
+<div class="bottomad"><script type="text/javascript"><!--
+google_ad_client = "pub-6388742802791691";
+width = document.documentElement.clientWidth;
+/* Site pages, 320x50 ads, Below page content */
+google_ad_slot = "2338863563";
+google_ad_width = 320;
+google_ad_height = 50;
+if (width > 500) {
+  /* Site pages, 468x60 ads, Below page content */
+  google_ad_slot = "3675995969";
+  google_ad_width = 468;
+  google_ad_height = 60;
+}
+if (width > 750) {
+  /* Site pages, 728x90 ads, Below page content */
+  google_ad_slot = "5925625433";
+  google_ad_width = 728;
+  google_ad_height = 90;
+}
+if (width > 1000) {
+  /* Site pages, 970x90 ads, Below page content */
+  google_ad_slot = "1613725160";
+  google_ad_width = 970;
+  google_ad_height = 90;
+}
+//-->
+</script>
+<script type="text/javascript"
+src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div><div class="ftr">
+	<a href="documentation.php">Documentation</a> &nbsp;
+	<a href="faq.php">FAQ</a> &nbsp;
+	<a href="forum.php">Forum</a> &nbsp;
+	<a href="bugs.php">Bugs</a> &nbsp;
+	<a href="features.php">Features</a> &nbsp;
+	<a href="screenshots.php">Screenshots</a> &nbsp;
+	<a href="articles.php">Articles</a> &nbsp;
+	<a href="contact.php">Contact</a>
+	<br><br>
+<a href="https://sourceforge.net/projects/gparted"><img
+	src="https://sflogo.sourceforge.net/sflogo.php?group_id=115843&amp;type=12"
+	width="120" height="31" border="0"
+	alt="Get GParted at SourceForge.net. Fast, secure and Free
+	Open Source software downloads" ></a>
+<a href="https://validator.w3.org/check/referer"><img border="0"
+	src="images/valid-html401.png"
+	alt="Valid HTML 4.01!" height="31" width="88"></a>
+<a href="https://jigsaw.w3.org/css-validator/validator?uri=https://gparted.org/">
+	<img border="0" src="images/vcss.gif"
+	 alt="Correct CSS!" height="31" width="88"></a>
+<a href="privacy-policy.php">
+	<img border="0" src="images/pp.png"
+	 alt="Privacy policy"></a>
+</div>
+
+</div>
+</body>
+</html>

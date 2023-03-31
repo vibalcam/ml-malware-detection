@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="http://j.mp/jqymin"></script>
+<link rel="stylesheet" type="text/css" href="newsstyle.css">
+<link href="https://fonts.googleapis.com/css?family=Roboto:400,700|Raleway:400,700" rel="stylesheet">
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-1404350292488940",
+    enable_page_level_ads: true
+  });
+</script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-131660930-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-131660930-1');
+</script>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-1404350292488940",
+    enable_page_level_ads: true
+  });
+</script>
+<meta charset="UTF-8" />
+<title>Tone Reactor - share your music, connect, explore new content</title>
+<meta name="description" content="Discover new free music downloads & streaming from independent artists. Explore new songs every day, create your own playlists. Find royalty free audio samples, tracks, and SFX -- ">
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
+<link rel="shortcut icon" href="http://tonereactor.com/themes/sound/images/favicon.png">
+<link href="https://fonts.googleapis.com/css?family=Exo:400,900" rel="stylesheet">
+<link href="http://tonereactor.com/themes/sound/style.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">baseUrl = "http://tonereactor.com"; token_id = "2609ee674c750d32e5d4a22c9b126104"; nowPlaying = viewed_id = 0; player_volume = 0.80; search_filter = "http://tonereactor.com/index.php?a=search&filter=tracks&q="; explore_filter = "http://tonereactor.com/index.php?a=explore&filter="; lng_just_now = "just now"; lng_ta_second = "a second"; lng_ta_seconds = "seconds"; lng_ta_minute = "a minute"; lng_ta_minutes = "%d minutes"; lng_ta_hour = "an hour"; lng_ta_hours = "%d hours"; lng_ta_day = "a day"; lng_ta_days = "%d days"; lng_ta_week = "a week"; lng_ta_weeks = "%d weeks"; lng_ta_month = "a month"; lng_ta_months = "%d months"; lng_ta_year = "a year"; lng_ta_years = "%d years"; lng_ago = "ago";</script>
+<script type="text/javascript" src="http://tonereactor.com/themes/sound/js/jquery.js"></script>
+<script type="text/javascript" src="http://tonereactor.com/themes/sound/js/jquery.timeago.js"></script>
+<script type="text/javascript" src="http://tonereactor.com/themes/sound/js/functions.js"></script>
+<script type="text/javascript" src="http://tonereactor.com/themes/sound/js/jquery.jplayer.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	$("#sound-player").jPlayer({
+		cssSelectorAncestor: '#sound-container',
+		play: function() {
+			// Verify if a view has been added already for this track
+			if(viewed_id == nowPlaying) {
+				return false;
+			} else {
+				updateTrackInfo(nowPlaying);
+				prevnext(3);
+			}
+			// Add the play count
+			viewed_id = nowPlaying;
+			$.ajax({
+				type: "POST",
+				url: "http://tonereactor.com/requests/add_view.php",
+				data: "id="+nowPlaying+"&token_id="+token_id, 
+				cache: false
+			});
+		},
+		ended: function () {
+			// If repeat is not turned on, move to the next song
+			if($('#repeat-song').html() == 0) {
+				$('.current-seek').html($('#sound_ghost_player').html());
+				$('.current-play').show();
+				viewed_id = 0;
+				nextSong(nowPlaying);
+			}
+		},
+		swfPath: "http://tonereactor.com/themes/sound/js",
+		supplied: "mp3,m4a",
+		wmode: "window",
+		volume: player_volume,
+		smoothPlayBar: true,
+		keyEnabled: true
+	});
+});
+function updateTrackInfo(id) {
+	// If there's a track id
+	if(id > 0) {
+		// Add the current song class
+		$('#track'+id).addClass('current-song');
+
+		// Add current play class to the Play button and hide it
+		$('#play'+id).addClass('current-play');
+		$('.current-play').hide();
+
+		$('.jp-audio .jp-time-holder').show();
+
+		// Add the active player to the current song
+		$("#song-controls"+id).html($("#seek-bar-song").html());
+
+		// Add the active player class to the current song
+		$("#song-controls"+id).addClass('current-seek');
+
+		// Set the play/pause button position (this is needed for mobile view in order for the play/pause button to be at the same height with the initial play button)
+		$('#track'+id+' .jp-play , #track'+id+' .jp-pause').css({ 'margin-top' : '-' + $('.song-top', '#track'+id).outerHeight() + 'px' });
+
+		prevnext();
+
+		// Bind functionality to the new song selector
+		$("#sound-player").jPlayer("option", "cssSelectorAncestor", '#sound-container');
+	}
+}
+function playSong(song, id, format) {
+	// If the user is on a mobile device, open the track in a new tab rather than playing it on the page
+	/*if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+		window.location = 'http://tonereactor.com/uploads/tracks/'+song;
+		return false;
+	}*/
+	
+	// Remove the current-song class (if any)
+	$('.current-song').removeClass('current-song');
+	// Show the previously hidden Play button (if any)
+	$('.current-play').show();
+	$('.current-play').removeClass('current-play');
+	
+	// Remove the active player if exists and set the ghost player
+	$('.current-seek').html($('#sound_ghost_player').html());
+	
+	// Remove the active player class
+	$('.current-seek').removeClass('current-seek');
+	
+	// Define the current playing track
+	nowPlaying = id;
+	
+	// Update the track listing
+	updateTrackInfo(nowPlaying);
+	prevnext(3);
+	
+	// Get the current song name, url and author
+	var trackUrl = $('#song-url'+id).attr('href');
+	var artwork = $('#song-art'+id).attr('src');
+	var songName, shortSongName = songName = $('#song-name'+id).html();
+	var songAuthor = $('#song-author'+id).text();
+	var songAuthorUrl = $('#song-author'+id).attr('href');
+	
+	if(songName.length > 30) {
+		var shortSongName = $('#song-name'+id).html();
+	}
+	
+	$('#sw-song-name').html($('<a>', {html: shortSongName, href: trackUrl, title: songName, rel: 'loadpage'}));
+	$('#sw-author-name').html($('<a>', {html: songAuthor, href: songAuthorUrl, title: songAuthor, rel: 'loadpage'}));
+	
+	$('#topbar-artwork').html($('<a>', {href: trackUrl, rel: 'loadpage', id: 'artwork-container'}));
+	$('#artwork-container').html('<img src="'+artwork+'">');
+	
+	// if the format is mp4, switch it to m4a since mp4 can be audio only
+	if(format == 'mp4') {
+		format = 'm4a';
+	}
+	
+	if(format == 'mp3') {
+		$("#sound-player").jPlayer("setMedia",{mp3:song}).jPlayer("play");
+	} else if(format == 'm4a') {
+		$("#sound-player").jPlayer("setMedia",{m4a:song}).jPlayer("play");
+	}
+}
+</script>
+
+<meta name="google-site-verification" content="9Q45e0Pt0JCn7lS0C_jlDI6yv-BPqBVJ2wMYkVJMLjk" />
+<link rel="canonical" href="http://www.tonereactor.com/index.php" />
+</head>
+<body>
+<div id="loading-bar"><dd></dd><dt></dt></div>
+<div class="topbar">
+	<div class="header">
+		<a href="http://tonereactor.com/index.php?a=welcome" rel="loadpage"><div class="logo"></div></a>
+		<a href="http://tonereactor.com/index.php?a=explore" class="menu-button" rel="loadpage" id="explore-button">Explore</a>
+		<a href="#news-feed" class="menu-button" rel="loadpage" id="explore-button">News</a>
+		<div class="search-input"><input type="text" id="search" placeholder="Search..." autocomplete="off"></div>
+		<a onclick="connect_modal()" class="menu-btn" title="Connect">Connect</a>
+	</div>
+	<div class="search-container"></div>
+	<div class="notification-container">
+		<div class="notification-content">
+			<div class="notification-inner">
+				<span id="global_page_url"><a href="http://tonereactor.com/index.php?a=notifications" rel="loadpage">View More Notifications</a></span>
+				<span id="chat_page_url"><a href="http://tonereactor.com/index.php?a=notifications&filter=chats" rel="loadpage">View More Messages</a></span>
+				<a onclick="showNotification('close')" title="Close Notifications"><div class="close_btn"></div></a>
+			</div>
+			<div id="notifications-content"></div>
+			<div class="notification-row"><div class="notification-padding"><a href="http://tonereactor.com/index.php?a=settings&b=notifications" rel="loadpage">Notifications Settings</a></div></div>
+		</div>
+	</div>
+</div>
+<div class="topbar_margin"></div>
+<div id="content">
+	<div class="row-body">
+<div class="body-content">
+<div class="row-welcome content-welcome" data-type="background" data-speed="10">
+	<div class="row-body">
+		<div class="welcome-inner">
+			<div class="welcome-message">
+				<div class="welcome-title">
+					<!--Tone Reactor-->
+					<img src="welcome-title.png" alt="welcome title">
+				</div>
+				<div class="welcome-desc">
+					<h1>share your music, connect with artists, explore new content</h1>
+				</div>
+				<div class="welcome-button">
+					<a onclick="connect_modal();$('#tab-register').click();">Join now</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="welcome-content">
+	<div class="row-body">
+		<div class="welcome-box-section">
+			Popular
+		</div>
+		<div class="welcome-tracks">
+			<div class="welcome-track" id="track1">
+	<a href="http://tonereactor.com/index.php?a=track&id=1&name=ukulele-bensound" rel="loadpage"><img src="http://tonereactor.com/thumb.php?src=1029878456_1442908353_1981976343.jpg&t=m&w=112&h=112" id="song-art1" alt="Ukulele - Bensound"></a>
+	<div class="welcome-player-background">
+		<div class="welcome-player-container">
+			<div class="welcome-player-button">
+				<div class="player-controls">
+					<div id="song-controls1">
+						<div id="jp_container_123" class="jp-audio">
+							<div class="jp-type-single">
+								<div class="jp-gui jp-interface">
+									<div class="jp-progress">
+										<div class="jp-seek-bar">
+											<div class="jp-play-bar"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div data-track-name="" data-track-id="1" id="play1" data-track-url="http://tonereactor.com/uploads/tracks/1615641742_830728276_1215196869.mp3" data-track-format="mp3" class="track song-play-btn"></div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="song-titles" style="display: none;">
+		<div class="song-author"><a href="http://tonereactor.com/index.php?a=profile&u=tomos" id="song-author1">tomos</a></div>
+		<div class="song-title">
+			<a href="http://tonereactor.com/index.php?a=track&id=1&name=ukulele-bensound" id="song-url1" rel="loadpage"><div id="song-name1">Ukulele - Bensound</div></a>
+		</div>
+	</div>
+</div><div class="welcome-track" id="track2">
+	<a href="http://tonereactor.com/index.php?a=track&id=2&name=tours-enthusiast" rel="loadpage"><img src="http://tonereactor.com/thumb.php?src=1424464236_1357403511_1667050867.jpg&t=m&w=112&h=112" id="song-art2" alt="Tours - Enthusiast"></a>
+	<div class="welcome-player-background">
+		<div class="welcome-player-container">
+			<div class="welcome-player-button">
+				<div class="player-controls">
+					<div id="song-controls2">
+						<div id="jp_container_123" class="jp-audio">
+							<div class="jp-type-single">
+								<div class="jp-gui jp-interface">
+									<div class="jp-progress">
+										<div class="jp-seek-bar">
+											<div class="jp-play-bar"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div data-track-name="" data-track-id="2" id="play2" data-track-url="http://tonereactor.com/uploads/tracks/1523968405_1648532989_992931215.mp3" data-track-format="mp3" class="track song-play-btn"></div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="song-titles" style="display: none;">
+		<div class="song-author"><a href="http://tonereactor.com/index.php?a=profile&u=tomos" id="song-author2">tomos</a></div>
+		<div class="song-title">
+			<a href="http://tonereactor.com/index.php?a=track&id=2&name=tours-enthusiast" id="song-url2" rel="loadpage"><div id="song-name2">Tours - Enthusiast</div></a>
+		</div>
+	</div>
+</div><div class="welcome-track" id="track3">
+	<a href="http://tonereactor.com/index.php?a=track&id=3&name=broke-for-free-night-owl" rel="loadpage"><img src="http://tonereactor.com/thumb.php?src=1459389311_781407364_175541439.jpg&t=m&w=112&h=112" id="song-art3" alt="Broke For Free - Night Owl"></a>
+	<div class="welcome-player-background">
+		<div class="welcome-player-container">
+			<div class="welcome-player-button">
+				<div class="player-controls">
+					<div id="song-controls3">
+						<div id="jp_container_123" class="jp-audio">
+							<div class="jp-type-single">
+								<div class="jp-gui jp-interface">
+									<div class="jp-progress">
+										<div class="jp-seek-bar">
+											<div class="jp-play-bar"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div data-track-name="" data-track-id="3" id="play3" data-track-url="http://tonereactor.com/uploads/tracks/1564441570_561813833_634836053.mp3" data-track-format="mp3" class="track song-play-btn"></div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="song-titles" style="display: none;">
+		<div class="song-author"><a href="http://tonereactor.com/index.php?a=profile&u=tomos" id="song-author3">tomos</a></div>
+		<div class="song-title">
+			<a href="http://tonereactor.com/index.php?a=track&id=3&name=broke-for-free-night-owl" id="song-url3" rel="loadpage"><div id="song-name3">Broke For Free - Night Owl</div></a>
+		</div>
+	</div>
+</div><div class="welcome-track" id="track4">
+	<a href="http://tonereactor.com/index.php?a=track&id=4&name=jahzzar-siesta" rel="loadpage"><img src="http://tonereactor.com/thumb.php?src=671793183_936765938_1618815127.jpg&t=m&w=112&h=112" id="song-art4" alt="Jahzzar - Siesta"></a>
+	<div class="welcome-player-background">
+		<div class="welcome-player-container">
+			<div class="welcome-player-button">
+				<div class="player-controls">
+					<div id="song-controls4">
+						<div id="jp_container_123" class="jp-audio">
+							<div class="jp-type-single">
+								<div class="jp-gui jp-interface">
+									<div class="jp-progress">
+										<div class="jp-seek-bar">
+											<div class="jp-play-bar"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div data-track-name="" data-track-id="4" id="play4" data-track-url="http://tonereactor.com/uploads/tracks/282179980_1322717828_1628086814.mp3" data-track-format="mp3" class="track song-play-btn"></div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="song-titles" style="display: none;">
+		<div class="song-author"><a href="http://tonereactor.com/index.php?a=profile&u=tomos" id="song-author4">tomos</a></div>
+		<div class="song-title">
+			<a href="http://tonereactor.com/index.php?a=track&id=4&name=jahzzar-siesta" id="song-url4" rel="loadpage"><div id="song-name4">Jahzzar - Siesta</div></a>
+		</div>
+	</div>
+</div><div class="welcome-track" id="track5">
+	<a href="http://tonereactor.com/index.php?a=track&id=5&name=monk-turner-+-fascinoma-its-your-birthday" rel="loadpage"><img src="http://tonereactor.com/thumb.php?src=1041013073_989735373_604745579.png&t=m&w=112&h=112" id="song-art5" alt="Monk Turner + Fascinoma - It's Your Birthday"></a>
+	<div class="welcome-player-background">
+		<div class="welcome-player-container">
+			<div class="welcome-player-button">
+				<div class="player-controls">
+					<div id="song-controls5">
+						<div id="jp_container_123" class="jp-audio">
+							<div class="jp-type-single">
+								<div class="jp-gui jp-interface">
+									<div class="jp-progress">
+										<div class="jp-seek-bar">
+											<div class="jp-play-bar"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div data-track-name="" data-track-id="5" id="play5" data-track-url="http://tonereactor.com/uploads/tracks/649016061_1331228036_1693215104.mp3" data-track-format="mp3" class="track song-play-btn"></div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="song-titles" style="display: none;">
+		<div class="song-author"><a href="http://tonereactor.com/index.php?a=profile&u=tomos" id="song-author5">tomos</a></div>
+		<div class="song-title">
+			<a href="http://tonereactor.com/index.php?a=track&id=5&name=monk-turner-+-fascinoma-its-your-birthday" id="song-url5" rel="loadpage"><div id="song-name5">Monk Turner + Fascinoma - It's Your Birthday</div></a>
+		</div>
+	</div>
+</div><div class="welcome-track" id="track6">
+	<a href="http://tonereactor.com/index.php?a=track&id=6&name=boxcat-games-epic-song" rel="loadpage"><img src="http://tonereactor.com/thumb.php?src=64266229_321309653_614270152.jpg&t=m&w=112&h=112" id="song-art6" alt="BoxCat Games - Epic Song"></a>
+	<div class="welcome-player-background">
+		<div class="welcome-player-container">
+			<div class="welcome-player-button">
+				<div class="player-controls">
+					<div id="song-controls6">
+						<div id="jp_container_123" class="jp-audio">
+							<div class="jp-type-single">
+								<div class="jp-gui jp-interface">
+									<div class="jp-progress">
+										<div class="jp-seek-bar">
+											<div class="jp-play-bar"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div data-track-name="" data-track-id="6" id="play6" data-track-url="http://tonereactor.com/uploads/tracks/416096499_177236465_619467443.mp3" data-track-format="mp3" class="track song-play-btn"></div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="song-titles" style="display: none;">
+		<div class="song-author"><a href="http://tonereactor.com/index.php?a=profile&u=tomos" id="song-author6">tomos</a></div>
+		<div class="song-title">
+			<a href="http://tonereactor.com/index.php?a=track&id=6&name=boxcat-games-epic-song" id="song-url6" rel="loadpage"><div id="song-name6">BoxCat Games - Epic Song</div></a>
+		</div>
+	</div>
+</div><div class="welcome-track" id="track7">
+	<a href="http://tonereactor.com/index.php?a=track&id=7&name=the-kyoto-connection-hachiko-the-faithtful-dog" rel="loadpage"><img src="http://tonereactor.com/thumb.php?src=76975754_1776099888_296495483.jpg&t=m&w=112&h=112" id="song-art7" alt="The Kyoto Connection - Hachiko (The Faithtful Dog)"></a>
+	<div class="welcome-player-background">
+		<div class="welcome-player-container">
+			<div class="welcome-player-button">
+				<div class="player-controls">
+					<div id="song-controls7">
+						<div id="jp_container_123" class="jp-audio">
+							<div class="jp-type-single">
+								<div class="jp-gui jp-interface">
+									<div class="jp-progress">
+										<div class="jp-seek-bar">
+											<div class="jp-play-bar"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div data-track-name="" data-track-id="7" id="play7" data-track-url="http://tonereactor.com/uploads/tracks/1688307497_217941113_570712708.mp3" data-track-format="mp3" class="track song-play-btn"></div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="song-titles" style="display: none;">
+		<div class="song-author"><a href="http://tonereactor.com/index.php?a=profile&u=tomos" id="song-author7">tomos</a></div>
+		<div class="song-title">
+			<a href="http://tonereactor.com/index.php?a=track&id=7&name=the-kyoto-connection-hachiko-the-faithtful-dog" id="song-url7" rel="loadpage"><div id="song-name7">The Kyoto Connection - Hachiko (The Faithtful Dog)</div></a>
+		</div>
+	</div>
+</div><div class="welcome-track" id="track8">
+	<a href="http://tonereactor.com/index.php?a=track&id=8&name=black-ant-fater-lee" rel="loadpage"><img src="http://tonereactor.com/thumb.php?src=621112059_391331582_19325204.jpg&t=m&w=112&h=112" id="song-art8" alt="Black Ant - Fater Lee"></a>
+	<div class="welcome-player-background">
+		<div class="welcome-player-container">
+			<div class="welcome-player-button">
+				<div class="player-controls">
+					<div id="song-controls8">
+						<div id="jp_container_123" class="jp-audio">
+							<div class="jp-type-single">
+								<div class="jp-gui jp-interface">
+									<div class="jp-progress">
+										<div class="jp-seek-bar">
+											<div class="jp-play-bar"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div data-track-name="" data-track-id="8" id="play8" data-track-url="http://tonereactor.com/uploads/tracks/1789006517_304070147_689741827.mp3" data-track-format="mp3" class="track song-play-btn"></div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="song-titles" style="display: none;">
+		<div class="song-author"><a href="http://tonereactor.com/index.php?a=profile&u=tomos" id="song-author8">tomos</a></div>
+		<div class="song-title">
+			<a href="http://tonereactor.com/index.php?a=track&id=8&name=black-ant-fater-lee" id="song-url8" rel="loadpage"><div id="song-name8">Black Ant - Fater Lee</div></a>
+		</div>
+	</div>
+</div><div class="welcome-track" id="track9">
+	<a href="http://tonereactor.com/index.php?a=track&id=9&name=summer-bensound" rel="loadpage"><img src="http://tonereactor.com/thumb.php?src=963481338_772702420_11727155.jpg&t=m&w=112&h=112" id="song-art9" alt="Summer - Bensound"></a>
+	<div class="welcome-player-background">
+		<div class="welcome-player-container">
+			<div class="welcome-player-button">
+				<div class="player-controls">
+					<div id="song-controls9">
+						<div id="jp_container_123" class="jp-audio">
+							<div class="jp-type-single">
+								<div class="jp-gui jp-interface">
+									<div class="jp-progress">
+										<div class="jp-seek-bar">
+											<div class="jp-play-bar"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div data-track-name="" data-track-id="9" id="play9" data-track-url="http://tonereactor.com/uploads/tracks/817800315_1247512290_631340967.mp3" data-track-format="mp3" class="track song-play-btn"></div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="song-titles" style="display: none;">
+		<div class="song-author"><a href="http://tonereactor.com/index.php?a=profile&u=tomos" id="song-author9">tomos</a></div>
+		<div class="song-title">
+			<a href="http://tonereactor.com/index.php?a=track&id=9&name=summer-bensound" id="song-url9" rel="loadpage"><div id="song-name9">Summer - Bensound</div></a>
+		</div>
+	</div>
+</div><div class="welcome-track" id="track10">
+	<a href="http://tonereactor.com/index.php?a=track&id=10&name=creative-minds-bensound" rel="loadpage"><img src="http://tonereactor.com/thumb.php?src=20091681_1388569395_185872801.jpg&t=m&w=112&h=112" id="song-art10" alt="Creative Minds - Bensound"></a>
+	<div class="welcome-player-background">
+		<div class="welcome-player-container">
+			<div class="welcome-player-button">
+				<div class="player-controls">
+					<div id="song-controls10">
+						<div id="jp_container_123" class="jp-audio">
+							<div class="jp-type-single">
+								<div class="jp-gui jp-interface">
+									<div class="jp-progress">
+										<div class="jp-seek-bar">
+											<div class="jp-play-bar"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div data-track-name="" data-track-id="10" id="play10" data-track-url="http://tonereactor.com/uploads/tracks/1579247561_1689561106_770027609.mp3" data-track-format="mp3" class="track song-play-btn"></div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="song-titles" style="display: none;">
+		<div class="song-author"><a href="http://tonereactor.com/index.php?a=profile&u=tomos" id="song-author10">tomos</a></div>
+		<div class="song-title">
+			<a href="http://tonereactor.com/index.php?a=track&id=10&name=creative-minds-bensound" id="song-url10" rel="loadpage"><div id="song-name10">Creative Minds - Bensound</div></a>
+		</div>
+	</div>
+</div>
+		</div>
+		<div class="wc-button"><!--http://tonereactor.com/index.php?a=explore&filter=popular%20music-->
+			<a href="http://tonereactor.com/index.php?a=explore&popular" rel="loadpage">Explore</a>
+		</div>
+	</div>
+</div>
+<div class="welcome-content wc-lc">
+	<div class="row-body">
+		<div class="welcome-box-section" id="welcome-creators">
+			Creators
+		</div>
+		<div class="welcome-box wcf">
+			<div class="feature-image features-upload"></div>
+			<div class="wcf-content">
+				<div class="welcome-box-title">
+					Upload
+				</div>
+				<div class="welcome-box-desc">
+					Upload your sounds, music, podcasts to the world
+				</div>
+			</div>
+		</div>
+		<div class="welcome-box wcf">
+			<div class="feature-image features-audience"></div>
+			<div class="wcf-content">
+				<div class="welcome-box-title">
+					Audience
+				</div>
+				<div class="welcome-box-desc">
+					Connect with our community and increase your audience
+				</div>
+			</div>
+		</div>
+		<div class="welcome-box wcf">
+			<div class="feature-image features-stats"></div>
+			<div class="wcf-content">
+				<div class="welcome-box-title">
+					Statistics
+				</div>
+				<div class="welcome-box-desc">
+					Get to know your audience with advanced statistics
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row-body">
+		<div class="welcome-box-section" id="welcome-listeners">
+			Listeners
+		</div>
+		<div class="welcome-box wcf">
+			<div class="feature-image features-explore"></div>
+			<div class="wcf-content">
+				<div class="welcome-box-title">
+					Explore
+				</div>
+				<div class="welcome-box-desc">
+					Explore and stream music, connect with new artists
+				</div>
+			</div>
+		</div>
+		<div class="welcome-box wcf">
+			<div class="feature-image features-share"></div>
+			<div class="wcf-content">
+				<div class="welcome-box-title">
+					Share
+				</div>
+				<div class="welcome-box-desc">
+					Share your favorite music with your friends on social networks
+				</div>
+			</div>
+		</div>
+		<div class="welcome-box wcf">
+			<div class="feature-image features-organize"></div>
+			<div class="wcf-content">
+				<div class="welcome-box-title">
+					Organize
+				</div>
+				<div class="welcome-box-desc">
+					Create playlists and organize your music the way you like
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div id="news-feed">
+	
+</div>
+
+<script>
+  $.getJSON(
+    "http://www.reddit.com/r/MusicNews.json?jsonp=?",
+    function foo(data)
+    {
+	  var newsItem = 1;
+      $.each(
+        data.data.children.slice(0, 8),
+        function (i, post) {
+		  if (newsItem%2 == 0){
+			$("#news-feed").append( '<div class="newsItemEven" style="background: linear-gradient( rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75) ), url('+newsItem+'.jpg);"><div class="newsItemTitle"><a href="' + post.data.url + '" target="_blank">' + post.data.title.toLowerCase() + '</a></div></div>' );
+		  }else{
+			$("#news-feed").append( '<div class="newsItemOdd" style="background: linear-gradient( rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75) ), url('+newsItem+'.jpg);"><div class="newsItemTitle"><a href="' + post.data.url + '" target="_blank">' + post.data.title.toLowerCase() + '</a></div></div>' );
+		  }
+		  newsItem++;
+        }
+      )
+    }
+  )
+</script>
+</div>
+</div>
+</div>
+<div id="connect" style="display: none;">
+	<div class="modal-container">
+		<div class="modal-title" id="connect-title">
+			<div class="modal-menu-container">
+				<div class="modal-menu-item modal-menu-item-active" id="tab-login">Login</div>
+				<div class="modal-menu-item" id="tab-register">Register</div>
+				<div class="modal-loading"></div>
+			</div>
+		</div>
+		<div class="divider"></div>
+		<div class="tab-login">
+			<div id="login-message"></div>
+			<div class="modal-inner">
+				<form id="login-form" method="post">
+				<div class="modal-input modal-connect">	
+					<input type="text" name="username" placeholder="Username or email">
+					<input type="password" name="password" placeholder="Password">
+				</div>
+				<div class="modal-checkbox"><input type="checkbox" name="remember" value="1" id="remember-me"><label for="remember-me">Remember me</label></div>
+				<input type="submit" style="display: none;"><!-- submit button used to enable the enter key -->
+				</form>
+				<div class="forgot-password"><a href="http://tonereactor.com/index.php?a=recover" rel="loadpage">Forgot your password?</a></div>
+			</div>
+			<div class="divider"></div>
+			<div class="modal-menu">
+				<div class="modal-btn modal-btn-active"><a id="login-button" onclick="connect(1)">Login</a></div>
+			</div>
+		</div>
+		<div class="tab-register">
+			<div id="register-message"></div>
+			<div class="modal-inner">
+				<div class="modal-input modal-connect">
+					<form id="register-form" method="post">
+					<input type="text" name="username" placeholder="Username">
+					<input type="password" name="password" placeholder="Password">
+					<input type="text" name="email" placeholder="Email">
+					
+					<input type="submit" style="display: none;"><!-- submit button used to enable the enter key -->
+					</form>
+				</div>
+			</div>
+			<div class="divider"></div>
+			<div class="modal-menu">
+				<div class="modal-btn modal-btn-active"><a id="register-button" onclick="connect(0)">Register</a></div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal-background"></div>
+<div class="row-body">
+	<div class="footer">
+		<div class="footer-container">
+			<!--
+			<div class="footer-links">
+				<span><a href="http://tonereactor.com/index.php?a=page&b=developers" rel="loadpage">Developers</a></span><span><a href="http://tonereactor.com/index.php?a=admin" rel="loadpage">Admin</a></span>
+			</div>
+			-->
+			<div class="footer-languages">
+				Language: <span><a href="http://tonereactor.com/index.php?lang=english">English</a></span>
+			</div>
+			<div class="footer-languages">
+				Copyright &copy; 2019 Tone Reactor. All rights reserved.
+			</div>
+		</div>
+	</div>
+</div>
+<div class="bottombar">
+	<div class="bottombar-container">
+		<div id="sound-player" class="jp-jplayer"></div>
+		<div id="sound-container" class="jp-audio top-player">
+			<div class="player-nine">
+				<div class="jp-type-single">
+					<div class="jp-gui jp-interface">
+						<div class="player-container-left">
+							<a onclick="prevnext(1)" id="prev-button" class="prev-button" title="Previous track"></a>
+							<a class="jp-play" tabindex="1" title="Play"></a>
+							<a class="jp-pause" tabindex="1" title="Pause"></a>
+							<a onclick="prevnext(2)" id="next-button" class="next-button" title="Next track"></a>
+							
+							<a class="jp-repeat" tabindex="1" title="Repeat" onclick="repeatSong(1)"></a>
+							<a class="jp-repeat-off" tabindex="1" title="Repeat Off" onclick="repeatSong(0)"></a>
+							<div style="display: none;" id="repeat-song">0</div>
+							<div class="jp-current-time" id="current-time"></div>
+						</div>
+						<div class="player-container-middle">
+							
+							<div class="jp-progress">
+								<div class="jp-seek-bar">
+									<div class="jp-play-bar"></div>
+								</div>
+							</div>
+							
+						</div>
+						<div class="player-container-right">
+							<div class="jp-duration" id="duration-time"></div>
+							<a class="jp-mute" tabindex="1" title="Mute"></a>
+							<a class="jp-unmute" tabindex="1" title="Unmute"></a>
+							
+							<div class="jp-volume-bar" onclick="playerVolume()" title="Volume">
+								<div class="jp-volume-bar-value"></div>
+							</div>
+						</div>
+					</div>
+				<div class="jp-no-solution"></div>
+			</div>
+			</div>
+			<div class="player-three">
+				<div id="topbar-track-info">
+					<div id="topbar-artwork"></div>
+					<div id="topbar-track-details">
+						<div class="topbar-song-name" id="sw-song-name"></div>
+						<div class="topbar-author-name" id="sw-author-name"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="seek-bar-song" style="display: none;">
+	<div id="sound-container" class="jp-audio">
+		<div class="jp-type-single">
+			<div class="jp-gui jp-interface">
+				<a class="jp-play">&nbsp;</a><a class="jp-pause">&nbsp;</a>
+				<div class="jp-progress">
+					<div class="jp-seek-bar">
+						<div class="jp-play-bar"></div>
+					</div>
+				</div>
+				<div class="jp-time-holder">
+					<div class="jp-current-time"></div>
+					<div class="jp-duration"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="sound_ghost_player" style="display: none;"><div class="jp-audio"><div class="jp-type-single"><div class="jp-gui jp-interface"><div class="jp-progress"><div class="jp-seek-bar"><div class="jp-play-bar"></div></div></div></div></div></div></div>
+
+</body>
+</html>
